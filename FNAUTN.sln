@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34928.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FNAUTN", "FNAUTN.vcxproj", "{49DB5E6C-9E14-4082-A830-E9085543300A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49DB5E6C-9E14-4082-A830-E9085543300A}.Debug|x64.ActiveCfg = Debug|x64
+		{49DB5E6C-9E14-4082-A830-E9085543300A}.Debug|x64.Build.0 = Debug|x64
+		{49DB5E6C-9E14-4082-A830-E9085543300A}.Debug|x86.ActiveCfg = Debug|Win32
+		{49DB5E6C-9E14-4082-A830-E9085543300A}.Debug|x86.Build.0 = Debug|Win32
+		{49DB5E6C-9E14-4082-A830-E9085543300A}.Release|x64.ActiveCfg = Release|x64
+		{49DB5E6C-9E14-4082-A830-E9085543300A}.Release|x64.Build.0 = Release|x64
+		{49DB5E6C-9E14-4082-A830-E9085543300A}.Release|x86.ActiveCfg = Release|Win32
+		{49DB5E6C-9E14-4082-A830-E9085543300A}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C6623292-7581-4E59-B83B-2256E2F071A4}
+	EndGlobalSection
+EndGlobal
