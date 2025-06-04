@@ -52,4 +52,18 @@ void AssetManager::loadButton(
 	return;
 }
 
+void AssetManager::CenterSprites(std::unordered_map<std::string, sf::Sprite>& sprites)
+{
+	for (auto& [name, sprite] : sprites) {
+		sf::FloatRect localBounds = sprite.getLocalBounds();
+		sprite.setOrigin({ localBounds.size.x / 2.f, localBounds.size.y / 2.f });
+	}
+}
+
+void AssetManager::CenterSprite(sf::Sprite& sprite)
+{
+	sf::FloatRect localBounds = sprite.getLocalBounds();
+	sprite.setOrigin({ localBounds.size.x / 2.f, localBounds.size.y / 2.f });
+}
+
 

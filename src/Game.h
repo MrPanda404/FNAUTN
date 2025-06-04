@@ -6,7 +6,6 @@
 struct GameData {
 	sf::RenderWindow window;
 	StateMachine machine;
-	//Agregar asset manager?
 };
 
 typedef std::shared_ptr<GameData> GameDataRef;

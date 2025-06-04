@@ -21,5 +21,9 @@ public:
 		const std::string& name,
 		const sf::Vector2f& position,
 		const sf::Vector2f& size);
+
+	static void CenterSprites(std::unordered_map <std::string, sf::Sprite>& sprites);
+
+	static void CenterSprite(sf::Sprite& sprite);
 };
 
