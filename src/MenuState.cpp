@@ -1,10 +1,11 @@
 #include "MenuState.h"
-#include <iostream>
 
 void ApplyParallax(const sf::Vector2f& mousePos, sf::Sprite& sprite, float parallax);
 sf::Vector2f CenterMouse(sf::Vector2i mousePos, sf::Vector2u windowSize);
 
 MenuState::MenuState(GameDataRef data)
+    : creditsSprite(creditsTex),
+    settingsSprite(settingTex)
 {
     this->data = data;
 }
@@ -13,6 +14,7 @@ void MenuState::Start()
 {
     SetupSprites();
     SetupButtons();
+    menuView = Menu;
 }
 
 void MenuState::HandleInput()
@@ -35,10 +37,24 @@ void MenuState::HandleInput()
 
         if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
             if (sf::Mouse::Button::Left == mousePressed->button) {
-                for (const auto& btn : buttons) {
-                    if (btn.second.getGlobalBounds().contains(mousePos)) {
-                        std::cout << btn.first << std::endl;
+                
+                
+                switch (menuView) {
+                case Menu:
+                    for (auto& btn : menuButtons) {
+                        if (btn.GetShape().getGlobalBounds().contains(mousePos)) {
+                            btn.OnClick();
+                        }
                     }
+                    break;
+                case Settings:
+                case Credits:
+                    if (backButton.GetShape().getGlobalBounds().contains(mousePos)) {
+                        backButton.OnClick();
+                    }
+                    break;
+                default:
+                    break;
                 }
             }
         }
@@ -53,8 +69,8 @@ void MenuState::Update()
 {
     if (mouseMoved) {
         auto centeredMouse = CenterMouse(sf::Mouse::getPosition(data->window), data->window.getSize());
-        ApplyParallax(centeredMouse, sprites.at("MenuArtBG"), 100);
-        ApplyParallax(centeredMouse, sprites.at("MenuArtSmoke"), 50);
+        ApplyParallax(centeredMouse, bgSprites.at("MenuArtBG"), 100);
+        ApplyParallax(centeredMouse, bgSprites.at("MenuArtSmoke"), 50);
         mouseMoved = false;
     }
 }
@@ -62,12 +78,31 @@ void MenuState::Update()
 void MenuState::Render()
 {
 	data->window.clear();
-    for (const std::string& s : drawOrder) {
-        data->window.draw(sprites.at(s));
+
+    Game::DrawOnWindow(bgSprites, drawOrderBG, data->window);
+
+
+    switch (menuView) {
+        case Menu:
+            Game::DrawOnWindow(menuSprites, drawOrder, data->window);
+            Game::DrawOnWindow(menuButtons, data->window);
+            break;
+        case Settings:
+        case Credits:
+
+            if (menuView == Settings) {
+                data->window.draw(settingsSprite);
+            }
+            else {
+                data->window.draw(this->creditsSprite);
+            }
+
+            data->window.draw(backButton.GetShape());
+            break;
+        default:
+            break;
     }
-    for (const auto& btn : buttons) {
-        data->window.draw(btn.second);
-    }
+
 	data->window.display();
 }
 
@@ -77,28 +112,65 @@ void MenuState::Stop()
 
 void MenuState::SetupSprites() 
 {
-    AssetManager::loadTexture(textures, sprites, "MenuArtBG", "textures", drawOrder);
-    AssetManager::loadTexture(textures, sprites, "MenuArtSmoke", "textures", drawOrder);
-    AssetManager::loadTexture(textures, sprites, "MenuArtText", "textures", drawOrder);
-    AssetManager::loadTexture(textures, sprites, "MenuArtCont", "textures", drawOrder);
-    AssetManager::loadTexture(textures, sprites, "MenuArtNoche6", "textures", drawOrder);
-    AssetManager::loadTexture(textures, sprites, "MenuArtNocheCustom", "textures", drawOrder);
+    drawOrderBG = {
+        "MenuArtBG", "MenuArtSmoke"
+    };
 
-    AssetManager::CenterSprite(sprites.at("MenuArtBG"));
-    AssetManager::CenterSprite(sprites.at("MenuArtSmoke"));
+    AssetManager::LoadTextureGroup(textures, bgSprites, drawOrderBG, "textures");
 
-    sprites.at("MenuArtBG").setScale({ 1.05f,1.05f });
-    sprites.at("MenuArtSmoke").setScale({ 1.05f,1.05f });
+    drawOrder = {
+        "MenuArtText", "MenuArtCont", "MenuArtNoche6", "MenuArtNocheCustom"
+    };
+
+    AssetManager::LoadTextureGroup(textures, menuSprites, drawOrder, "textures");
+
+    AssetManager::LoadTexture(creditsTex, "CreditsArt", "textures");
+    AssetManager::LoadTexture(settingTex, "SettingsArt", "textures");
+
+    creditsSprite.setTexture(creditsTex, true);
+    settingsSprite.setTexture(settingTex, true);
+
+    AssetManager::CenterSprites(bgSprites);
+
+    bgSprites.at("MenuArtBG").setScale({ 1.05f,1.05f });
+    bgSprites.at("MenuArtSmoke").setScale({ 1.05f,1.05f });
+
+
 }
 
-void MenuState::SetupButtons() 
+void MenuState::SetupButtons()
 {
-    AssetManager::loadButton(buttons, "NewGameBtn", { 80,304 }, { 288,64 });
-    AssetManager::loadButton(buttons, "ContinueBtn", { 80,416 }, { 288,64 });
-    AssetManager::loadButton(buttons, "Night6Btn", { 80,512 }, { 288,64 });
-    AssetManager::loadButton(buttons, "CustomNightBtn", { 80,608 }, { 320,64 });
-    AssetManager::loadButton(buttons, "ExitBtn", { 46,768 }, { 192,80 });
-    AssetManager::loadButton(buttons, "SettingsButton", { 352,768 }, { 304,96 });
+    menuButtons = {
+        Button("NewGameBtn", { 80, 304 },{ 288, 64 }), //0
+        Button("ContinueBtn", { 80, 416 }, { 224, 64 }), //1
+        Button("Night6Btn", { 80, 512 },{ 208, 64 }), //2
+        Button("CustomNightBtn", { 80, 608 },{ 320, 64}), //3
+        Button("ExitBtn", { 46, 768 },{ 192, 80 }), //4
+        Button("SettingsButton", { 352, 768 },{ 304, 96 }), //5
+        Button("CreditsButton", { 1408, 112 },{ 160, 64 }), //6
+    };
+
+    menuButtons.at(0).SetFunction(([](){}));
+    menuButtons.at(1).SetFunction(([](){}));
+    menuButtons.at(2).SetFunction(([](){}));
+    menuButtons.at(3).SetFunction(([](){}));
+
+    menuButtons.at(4).SetFunction([this]() {
+        data->window.close();
+    });
+
+    menuButtons.at(5).SetFunction([this]{
+        this->menuView = Settings;
+        });
+    menuButtons.at(6).SetFunction([this]{
+        this->menuView = Credits;
+        });
+
+
+    backButton = Button("BackButton", { 32,800 }, { 176,80 });
+    backButton.SetFunction([this] {
+        this->menuView = Menu;
+        });
 }
 
 void ApplyParallax(const sf::Vector2f& mousePos, sf::Sprite& sprite, float parallax) 
@@ -115,8 +187,8 @@ void ApplyParallax(const sf::Vector2f& mousePos, sf::Sprite& sprite, float paral
         -mousePos.y / parallax + centerY + offsetY,
         });
 
-    std::cout << "Sprite " << parallax << " Vector: " << newPosition.x << ", " << newPosition.y << std::endl;
-    std::cout << "MousePos " << mousePos.x << ", " << mousePos.y << std::endl;
+    //std::cout << "Sprite " << parallax << " Vector: " << newPosition.x << ", " << newPosition.y << std::endl;
+    //std::cout << "MousePos " << mousePos.x << ", " << mousePos.y << std::endl;
 
     sprite.setPosition(newPosition);
 }

@@ -1,6 +1,7 @@
 #include "StateMachine.h"
 
-void StateMachine::addState(StateRef newState, bool isReplacing)
+
+void StateMachine::AddState(StateRef newState, bool isReplacing)
 {
 	this->isAdding = true;
 	this->isReplacing = isReplacing;
@@ -8,12 +9,12 @@ void StateMachine::addState(StateRef newState, bool isReplacing)
 	this->newState = std::move(newState);
 }
 
-void StateMachine::removeState()
+void StateMachine::RemoveState()
 {
 	this->isRemoving = true;
 }
 
-void StateMachine::processStateChanges()
+void StateMachine::ProcessStateChanges()
 {
 	if (isRemoving && !states.empty())
 	{
@@ -32,7 +33,7 @@ void StateMachine::processStateChanges()
 	}
 }
 
-StateRef& StateMachine::getActiveState()
+StateRef& StateMachine::GetActiveState()
 {
 	return this->states.top();
 }

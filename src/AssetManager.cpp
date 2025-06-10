@@ -1,10 +1,11 @@
 #include "AssetManager.h"
 #include <iostream>
 
-std::pair<std::string, sf::Sprite> AssetManager::loadTexture(
+std::pair<std::string, sf::Sprite> AssetManager::LoadTexture(
 	std::unordered_map<std::string, sf::Texture>& textures,
 	const std::string& name,
-	const std::string& folder, std::vector<std::string>& v)
+	const std::string& folder,
+	std::vector<std::string>& v)
 {
 	if (!textures[name].loadFromFile(folder + "/" + name + ".png")) {
 		std::cout << "Failed to load "<< name << std::endl;
@@ -15,11 +16,12 @@ std::pair<std::string, sf::Sprite> AssetManager::loadTexture(
 	return { name, sf::Sprite(textures[name]) };
 }
 
-void AssetManager::loadTexture(
+void AssetManager::LoadTexture(
 	std::unordered_map<std::string, sf::Texture>& textures,
 	std::unordered_map<std::string, sf::Sprite>& sprites,
 	const std::string& name,
-	const std::string& folder, std::vector<std::string>& v)
+	const std::string& folder,
+	std::vector<std::string>& v)
 {
 	if (!textures[name].loadFromFile(folder + "/" + name + ".png")) {
 		std::cout << "Failed to load " << name << std::endl;
@@ -30,33 +32,53 @@ void AssetManager::loadTexture(
 	sprites.insert({name, sf::Sprite(textures[name])});
 }
 
-void AssetManager::loadTexture(sf::Texture texture, std::string name, std::string folder)
+void AssetManager::LoadTexture(sf::Texture& texture,const std::string& name, const std::string& folder)
 {
 	if(!texture.loadFromFile(folder + "/" + name + ".png")) {
 		std::cout << "Failed to load " << name << std::endl;
 	}
 }
 
-void AssetManager::loadButton(
-	std::unordered_map<std::string, sf::RectangleShape>& buttons,
+void AssetManager::LoadTexture(
+	std::unordered_map<std::string, sf::Texture>& textures,
 	const std::string& name,
-	const sf::Vector2f& position,
-	const sf::Vector2f& size)
+	const std::string& folder)
 {
-	sf::RectangleShape rs(size);
-	rs.setPosition(position);
-	rs.setFillColor(sf::Color(255, 255, 255, 150));
+	if (!textures[name].loadFromFile(folder + "/" + name + ".png")) {
+		std::cout << "Failed to load " << name << std::endl;
+	}
 
-	buttons.insert({ name, rs });
+}
 
-	return;
+void AssetManager::LoadTexture(
+	std::unordered_map<std::string, sf::Texture>& textures,
+	std::unordered_map<std::string, sf::Sprite>& sprites,
+	const std::string& name,
+	const std::string& folder)
+{
+	if (!textures[name].loadFromFile(folder + "/" + name + ".png")) {
+		std::cout << "Failed to load " << name << std::endl;
+	}
+
+	sprites.insert({ name, sf::Sprite(textures[name]) });
+}
+
+void AssetManager::LoadTextureGroup(
+	std::unordered_map<std::string, sf::Texture>& textures,
+	std::unordered_map<std::string, sf::Sprite>& sprites,
+	const std::vector<std::string>& names,
+	const std::string& folder)
+{
+	for (const std::string& name : names) {
+		LoadTexture(textures, sprites, name, folder);
+	}
 }
 
 void AssetManager::CenterSprites(std::unordered_map<std::string, sf::Sprite>& sprites)
 {
-	for (auto& [name, sprite] : sprites) {
-		sf::FloatRect localBounds = sprite.getLocalBounds();
-		sprite.setOrigin({ localBounds.size.x / 2.f, localBounds.size.y / 2.f });
+	for (auto& s : sprites) {
+		sf::FloatRect localBounds = s.second.getLocalBounds();
+		s.second.setOrigin({ localBounds.size.x / 2.f, localBounds.size.y / 2.f });
 	}
 }
 
@@ -65,5 +87,3 @@ void AssetManager::CenterSprite(sf::Sprite& sprite)
 	sf::FloatRect localBounds = sprite.getLocalBounds();
 	sprite.setOrigin({ localBounds.size.x / 2.f, localBounds.size.y / 2.f });
 }
-
-

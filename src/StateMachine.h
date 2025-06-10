@@ -14,18 +14,19 @@ public:
 	StateMachine() {};
 	~StateMachine() {};
 
-	void addState(StateRef newState, bool isReplacing = true);
-	void removeState();
+	void AddState(StateRef newState, bool isReplacing = true);
+	void RemoveState();
 
-	void processStateChanges();
+	void ProcessStateChanges();
 
-	StateRef& getActiveState();
+	StateRef& GetActiveState();
 
 private:
 	std::stack<StateRef> states;
 	StateRef newState;
 
-	bool isRemoving;
-	bool isAdding, isReplacing;
+	bool isRemoving = false;
+	bool isAdding = false;
+	bool isReplacing = false;
 };
 

@@ -7,7 +7,7 @@ Game::Game(sf::VideoMode videomode, std::string title)
 	sf::View view(sf::FloatRect({ 0, 0 }, { 1600, 900 }));
 	data->window.setView(view);
 
-	data->machine.addState(StateRef(new MenuState(data)));
+	data->machine.AddState(StateRef(new MenuState(data)));
 
 	Run();
 }
@@ -18,12 +18,26 @@ void Game::Run()
 
 	while (data->window.isOpen())
 	{
-		data->machine.processStateChanges();
+		data->machine.ProcessStateChanges();
 
-		data->machine.getActiveState()->HandleInput();
+		data->machine.GetActiveState()->HandleInput();
 
-		data->machine.getActiveState()->Update();
+		data->machine.GetActiveState()->Update();
 
-		data->machine.getActiveState()->Render();
+		data->machine.GetActiveState()->Render();
+	}
+}
+
+void Game::DrawOnWindow(std::unordered_map<std::string, sf::Sprite>& sprites, std::vector<std::string>& v, sf::RenderWindow& window)
+{
+	for (std::string s : v) {
+		window.draw(sprites.at(s));
+	}
+}
+
+void Game::DrawOnWindow(std::vector<Button> buttons, sf::RenderWindow& window)
+{
+	for (const auto& btn : buttons) {
+		window.draw(btn.GetShape());
 	}
 }
