@@ -2,6 +2,7 @@
 #include "State.h"
 #include "Game.h"
 
+
 enum MenuView {
 	Menu,
 	Settings,

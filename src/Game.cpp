@@ -14,10 +14,18 @@ Game::Game(sf::VideoMode videomode, std::string title)
 
 void Game::Run()
 {
-	data->window.setFramerateLimit(60);
+	sf::Clock deltaTime;
+
+	//data->window.setFramerateLimit(60);
+	data->window.setVerticalSyncEnabled(true);
+
+
+	deltaTime.restart();
 
 	while (data->window.isOpen())
 	{
+		data->dt = deltaTime.restart().asSeconds();
+
 		data->machine.ProcessStateChanges();
 
 		data->machine.GetActiveState()->HandleInput();
@@ -39,5 +47,19 @@ void Game::DrawOnWindow(std::vector<Button> buttons, sf::RenderWindow& window)
 {
 	for (const auto& btn : buttons) {
 		window.draw(btn.GetShape());
+	}
+}
+
+void Game::DrawOnWindow(std::vector<sf::Sprite> sprites, sf::RenderWindow& window)
+{
+	for (const auto& s : sprites) {
+		window.draw(s);
+	}
+}
+
+void Game::DrawOnWindow(std::vector<sf::Sprite> sprites, sf::RenderWindow& window, sf::Shader& shader)
+{
+	for (const auto& s : sprites) {
+		window.draw(s, &shader);
 	}
 }

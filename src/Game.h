@@ -7,6 +7,7 @@
 struct GameData {
 	sf::RenderWindow window;
 	StateMachine machine;
+	float dt;
 };
 
 typedef std::shared_ptr<GameData> GameDataRef;
@@ -24,6 +25,16 @@ public:
 	static void DrawOnWindow(
 		std::vector<Button> buttons,
 		sf::RenderWindow& window);
+
+	static void DrawOnWindow(
+		std::vector<sf::Sprite> sprites,
+		sf::RenderWindow& window);
+	
+	static void DrawOnWindow(
+		std::vector<sf::Sprite> sprites,
+		sf::RenderWindow& window,
+		sf::Shader& shader);
+
 
 
 private:

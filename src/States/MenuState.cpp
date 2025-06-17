@@ -1,4 +1,5 @@
 #include "MenuState.h"
+#include "NightState.h"
 
 void ApplyParallax(const sf::Vector2f& mousePos, sf::Sprite& sprite, float parallax);
 sf::Vector2f CenterMouse(sf::Vector2i mousePos, sf::Vector2u windowSize);
@@ -37,8 +38,6 @@ void MenuState::HandleInput()
 
         if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
             if (sf::Mouse::Button::Left == mousePressed->button) {
-                
-                
                 switch (menuView) {
                 case Menu:
                     for (auto& btn : menuButtons) {
@@ -80,7 +79,6 @@ void MenuState::Render()
 	data->window.clear();
 
     Game::DrawOnWindow(bgSprites, drawOrderBG, data->window);
-
 
     switch (menuView) {
         case Menu:
@@ -150,10 +148,12 @@ void MenuState::SetupButtons()
         Button("CreditsButton", { 1408, 112 },{ 160, 64 }), //6
     };
 
-    menuButtons.at(0).SetFunction(([](){}));
-    menuButtons.at(1).SetFunction(([](){}));
-    menuButtons.at(2).SetFunction(([](){}));
-    menuButtons.at(3).SetFunction(([](){}));
+    menuButtons.at(0).SetFunction([this]() {
+        data->machine.AddState((StateRef)new NightState(data), false);
+        });
+    menuButtons.at(1).SetFunction([]() {});
+    menuButtons.at(2).SetFunction([]() {});
+    menuButtons.at(3).SetFunction([]() {});
 
     menuButtons.at(4).SetFunction([this]() {
         data->window.close();
