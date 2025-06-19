@@ -5,13 +5,13 @@ std::pair<std::string, sf::Sprite> AssetManager::LoadTexture(
 	std::unordered_map<std::string, sf::Texture>& textures,
 	const std::string& name,
 	const std::string& folder,
-	std::vector<std::string>& v)
+	std::vector<std::string>& drawOrder)
 {
 	if (!textures[name].loadFromFile(folder + "/" + name + ".png")) {
 		std::cout << "Failed to load "<< name << std::endl;
 	}
 
-	v.push_back(name);
+	drawOrder.push_back(name);
 
 	return { name, sf::Sprite(textures[name]) };
 }
@@ -21,13 +21,13 @@ void AssetManager::LoadTexture(
 	std::unordered_map<std::string, sf::Sprite>& sprites,
 	const std::string& name,
 	const std::string& folder,
-	std::vector<std::string>& v)
+	std::vector<std::string>& drawOrder)
 {
 	if (!textures[name].loadFromFile(folder + "/" + name + ".png")) {
 		std::cout << "Failed to load " << name << std::endl;
 	}
 
-	v.push_back(name);
+	drawOrder.push_back(name);
 
 	sprites.insert({name, sf::Sprite(textures[name])});
 }

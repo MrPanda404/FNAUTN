@@ -12,13 +12,13 @@ public:
 	/// <param name="textures">Map where the textures are stored.</param>
 	/// <param name="name">Name of the texture to load and use as key.</param>
 	/// <param name="folder">Folder path of the texture.</param>
-	/// <param name="v">Vector to append the texture name.</param>
+	/// <param name="drawOrder">Vector to append the texture name.</param>
 	/// <returns>A pair containing the texture name and a sprite using the texture.</returns>
 	static std::pair<std::string, sf::Sprite> LoadTexture(
 		std::unordered_map<std::string, sf::Texture>& textures,
 		const std::string& name,
 		const std::string& folder,
-		std::vector<std::string>& v);
+		std::vector<std::string>& drawOrder);
 
 	/// <summary>
 	/// Loads a texture into the provided textures map using the given name as key,
@@ -29,13 +29,13 @@ public:
 	/// <param name="sprites">Map where the sprites are stored.</param>
 	/// <param name="name">Name of the texture to load and use as key.</param>
 	/// <param name="folder">Folder path of the texture.</param>
-	/// <param name="v">Vector to append the texture name.</param>
+	/// <param name="drawOrder">Vector to append the texture name.</param>
 	static void LoadTexture(
 		std::unordered_map<std::string, sf::Texture>& textures,
 		std::unordered_map<std::string, sf::Sprite>& sprites,
 		const std::string& name,
 		const std::string& folder,
-		std::vector<std::string>& v);
+		std::vector<std::string>& drawOrder);
 
 	/// <summary>
 	/// Loads a texture into the provided Texture object. 

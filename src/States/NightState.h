@@ -8,6 +8,11 @@ enum LeftDoor {
 enum RightDoor {
 
 };
+enum Scroll {
+	Left,
+	Center,
+	Right
+};
 
 class NightState : public State
 {
@@ -44,6 +49,13 @@ private:
 	std::vector<Button> cameraButtons;
 
 	sf::Vector2f mousePos;
+
+	sf::RenderTexture renderTexture;
+
+	Scroll scroll;
+	float scrollOffset;
+
+	std::vector<Button> test;
 
 };
 

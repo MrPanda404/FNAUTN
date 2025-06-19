@@ -114,6 +114,10 @@ void MenuState::SetupSprites()
         "MenuArtBG", "MenuArtSmoke"
     };
 
+    for (const auto& name : drawOrderBG) {
+        textures[name].setSmooth(true);
+    }
+
     AssetManager::LoadTextureGroup(textures, bgSprites, drawOrderBG, "textures");
 
     drawOrder = {
@@ -123,6 +127,7 @@ void MenuState::SetupSprites()
     AssetManager::LoadTextureGroup(textures, menuSprites, drawOrder, "textures");
 
     AssetManager::LoadTexture(creditsTex, "CreditsArt", "textures");
+
     AssetManager::LoadTexture(settingTex, "SettingsArt", "textures");
 
     creditsSprite.setTexture(creditsTex, true);

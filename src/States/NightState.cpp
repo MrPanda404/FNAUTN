@@ -1,7 +1,10 @@
 #include "NightState.h"
 #include "ShaderManager.h"
+#include <iostream>
 
 NightState::NightState(GameDataRef data)
+	: scroll(Center),
+	scrollOffset(9)
 {
 	this->data = data;
 }
@@ -11,6 +14,8 @@ void NightState::Start()
 	SetupShaders();
 	SetupSprites();
 	SetupButtons();
+
+	
 }
 
 void NightState::HandleInput()
@@ -34,40 +39,53 @@ void NightState::HandleInput()
         if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
             if (sf::Mouse::Button::Left == mousePressed->button) {
 
-
+				for (auto& btn : officeButtons) {
+					if (btn.GetShape().getGlobalBounds().contains(mousePos)) {
+						std::cout << btn.GetName() << std::endl;
+					}
+				}
                
             }
         }
 
         if (const auto* mouseMoved = event->getIf<sf::Event::MouseMoved>()) {
-            
+			if (mousePos.x > data->window.getView().getSize().x * 0.85f) {
+				scroll = Left;
+			}
+			else if (mousePos.x < data->window.getView().getSize().x * 0.15f) {
+				scroll = Right;
+			}
+			else {
+				scroll = Center;
+			}
         }
     }
 }
 
 void NightState::Update()
 {
-	HorizontalScroll();
+	if (scroll != Center) {
+		HorizontalScroll();
+	}
 }
 
 void NightState::Render()
 {
 	data->window.clear();
+	renderTexture.clear();
 
-	sf::RenderTexture renderTexture;
-	renderTexture.setSmooth(true);
-	renderTexture.resize((sf::Vector2u)data->window.getView().getSize());
-	sf::Sprite sprite(renderTexture.getTexture());
-	sprite.setScale({ 1.0, -1.0 });
-	sprite.setPosition({ 0., data->window.getView().getSize().y });
-
-	for (auto s : officeSprites) {
+	for (const auto& s : officeSprites) {
 		renderTexture.draw(s);
 	}
+
+	renderTexture.display();
+
+	sf::Sprite sprite(renderTexture.getTexture());
+
 	data->window.draw(sprite, &perspectiveShader);
 
-
-	//Game::DrawOnWindow(officeSprites, data->window, perspectiveShader);
+	///Game::DrawOnWindow(test, data->window);
+	Game::DrawOnWindow(officeButtons, data->window);
 
 	data->window.display();
 }
@@ -94,6 +112,12 @@ void NightState::SetupSprites()
 	AssetManager::LoadTexture(officeTextures, name[0], "office");
 	AssetManager::LoadTexture(officeTextures, name[1], "office");
 	AssetManager::LoadTexture(officeTextures, name[2], "office");
+	///Agregar sobrecarga a AssetManager (LoadTextureGroup)
+	///Tanto de solo texturas como sin pushear orden.
+
+	for (auto& t : officeTextures) {
+		t.second.setSmooth(true);
+	}
 	
 	officeSprites = {
 		sf::Sprite(officeTextures.at(name[0])),
@@ -104,36 +128,67 @@ void NightState::SetupSprites()
 	officeSprites[0].setPosition({-1000,0});
 	officeSprites[1].setPosition({ 130,0 });
 	officeSprites[2].setPosition({ 1470,0 });
+
+
+	
+
+	renderTexture.setSmooth(true);
+	if (!renderTexture.resize((sf::Vector2u)data->window.getView().getSize())) {
+		//std::cerr << "RenderTexture creation failed" << std::endl;
+	}
+
 }
 
 void NightState::SetupButtons()
 {
-	
+	test = {
+		Button("Test1", {data->window.getSize().x * 0.85f, 0}, {-(officeSprites[2].getTextureRect().size.x - data->window.getView().getSize().x), 900}),
+		Button("Test2", {0, 0}, {data->window.getSize().x * 0.15f, 900})
+	};
+	test[0].GetShape().setFillColor(sf::Color(255, 255, 255, 150));
+	test[1].GetShape().setFillColor(sf::Color(255, 255, 255, 150));
+
+	officeButtons = {
+		Button("LeftDoor", { 844 + officeSprites[0].getPosition().x , 240 }, { 222 , 550 }),//0
+		Button("RightDoor", { 2534 + officeSprites[0].getPosition().x , 240 }, { 222 , 550 }),//1
+		Button("Light", { 1239 + officeSprites[0].getPosition().x , 154} , {1122 , 427}),//2
+	};
+
+	for (auto& b : officeButtons) {
+		b.GetShape().setFillColor(sf::Color(255, 255, 255, 150));
+	}
 }
 
 void NightState::HorizontalScroll()
 {
 	float speed = 0;
 	float baseSpeed = 1000;
-	int offset  = 9;
 
-	sf::Vector2f mousePos = data->window.mapPixelToCoords(sf::Mouse::getPosition(data->window));
-
-	if (mousePos.x > data->window.getSize().x * 0.85 &&
-		officeSprites[2].getPosition().x >
-		-(officeSprites[2].getTextureRect().size.x - data->window.getView().getSize().x) + offset)
+	switch (scroll)
 	{
-		speed = -baseSpeed;
-	}
-	if (mousePos.x < data->window.getSize().x * 0.15 &&
-		officeSprites[0].getPosition().x < 0 - offset)
-	{
-		speed = baseSpeed;
+	case Left:
+		if (officeSprites[2].getPosition().x >
+			-(officeSprites[2].getTextureRect().size.x - data->window.getView().getSize().x) + scrollOffset) {
+			speed = -baseSpeed;
+		}
+		else return;
+		break;
+	case Right:
+		if (officeSprites[0].getPosition().x < 0 - scrollOffset) {
+			speed = baseSpeed;
+		}
+		else return;
+		break;
+	default:
+		break;
 	}
 
 	speed *= data->dt;
 
 	for (auto& sprite : officeSprites) {
 		sprite.move({ speed, 0 });
+	}
+	for (auto& b : officeButtons) {
+		b.GetShape().move({speed, 0});
 	}
 }
