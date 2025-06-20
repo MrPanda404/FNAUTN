@@ -13,9 +13,7 @@ void NightState::Start()
 {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 	SetupShaders();
 	SetupSprites();
-	SetupButtons();
-
-	
+	SetupButtons();	
 }
 
 void NightState::HandleInput()
@@ -41,10 +39,25 @@ void NightState::HandleInput()
 
 				for (auto& btn : officeButtons) {
 					if (btn.GetShape().getGlobalBounds().contains(mousePos)) {
+						btn.OnClick();
 						std::cout << btn.GetName() << std::endl;
 					}
 				}
                
+            }
+        }
+		if (const auto* mouseReleased = event->getIf<sf::Event::MouseButtonReleased>()) {
+            if (sf::Mouse::Button::Left == mouseReleased->button) {
+
+				std::vector<std::string> name = {
+					"L00", "FFFF", "R00"
+				};
+               
+				int i = 0;
+				for (auto& s : officeSprites) {
+					s.setTexture(officeTextures.at(name[i]), true);
+					i++;
+				}
             }
         }
 
@@ -145,8 +158,8 @@ void NightState::SetupButtons()
 		Button("Test1", {data->window.getSize().x * 0.85f, 0}, {-(officeSprites[2].getTextureRect().size.x - data->window.getView().getSize().x), 900}),
 		Button("Test2", {0, 0}, {data->window.getSize().x * 0.15f, 900})
 	};
-	test[0].GetShape().setFillColor(sf::Color(255, 255, 255, 150));
-	test[1].GetShape().setFillColor(sf::Color(255, 255, 255, 150));
+	//test[0].GetShape().setFillColor(sf::Color(255, 255, 255, 150));
+	//test[1].GetShape().setFillColor(sf::Color(255, 255, 255, 150));
 
 	officeButtons = {
 		Button("LeftDoor", { 844 + officeSprites[0].getPosition().x , 240 }, { 222 , 550 }),//0
@@ -155,8 +168,24 @@ void NightState::SetupButtons()
 	};
 
 	for (auto& b : officeButtons) {
-		b.GetShape().setFillColor(sf::Color(255, 255, 255, 150));
+	//	b.GetShape().setFillColor(sf::Color(255, 255, 255, 150));
 	}
+
+	officeButtons[2].SetFunction([this]() {
+		std::vector<std::string> name = {
+		"L01", "0000", "R01"
+		};
+		if (officeTextures.count(name[0]) == 0) {
+			AssetManager::LoadTexture(officeTextures, name[0], "office");
+			AssetManager::LoadTexture(officeTextures, name[1], "office");
+			AssetManager::LoadTexture(officeTextures, name[2], "office");
+		}
+		int i = 0;
+		for (auto& s : officeSprites) {
+			s.setTexture(officeTextures.at(name[i]), true);
+			i++;
+		}
+		});
 }
 
 void NightState::HorizontalScroll()
