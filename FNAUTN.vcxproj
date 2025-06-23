@@ -113,7 +113,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src/States;$(SolutionDir)src/UI;$(SolutionDir)src/StateMachine;$(SolutionDir)src/Entities;$(SolutionDir)src/Managers;$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src/Office;$(SolutionDir)src/States;$(SolutionDir)src/UI;$(SolutionDir)src/StateMachine;$(SolutionDir)src/Entities;$(SolutionDir)src/Managers;$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,7 +129,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src/States;$(SolutionDir)src/UI;$(SolutionDir)src/StateMachine;$(SolutionDir)src/Entities;$(SolutionDir)src/Managers;$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src/Office;$(SolutionDir)src/States;$(SolutionDir)src/UI;$(SolutionDir)src/StateMachine;$(SolutionDir)src/Entities;$(SolutionDir)src/Managers;$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,17 +140,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Office\Camera.cpp" />
+    <ClCompile Include="src\Office\Office.cpp" />
+    <ClCompile Include="src\Entities\Maxi.cpp" />
+    <ClCompile Include="src\Entities\Mati.cpp" />
+    <ClCompile Include="src\Entities\Kloster.cpp" />
+    <ClCompile Include="src\Managers\EnemyManager.cpp" />
     <ClCompile Include="src\Managers\ShaderManager.cpp" />
     <ClCompile Include="src\Entities\Player.cpp" />
     <ClCompile Include="src\States\NightState.cpp" />
     <ClCompile Include="src\UI\Button.cpp" />
     <ClCompile Include="src\Managers\AssetManager.cpp" />
     <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\States\MenuState.cpp" />
     <ClCompile Include="src\StateMachine\StateMachine.cpp" />
+    <ClCompile Include="src\Entities\Vastag.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Office\Camera.h" />
+    <ClInclude Include="src\Office\Office.h" />
+    <ClInclude Include="src\Entities\Mati.h" />
+    <ClInclude Include="src\Entities\Maxi.h" />
+    <ClInclude Include="src\Entities\Kloster.h" />
+    <ClInclude Include="src\Managers\EnemyManager.h" />
+    <ClInclude Include="src\Entities\Enemy.h" />
     <ClInclude Include="src\Managers\ShaderManager.h" />
     <ClInclude Include="src\Entities\Player.h" />
     <ClInclude Include="src\States\NightState.h" />
@@ -160,6 +174,7 @@
     <ClInclude Include="src\States\MenuState.h" />
     <ClInclude Include="src\StateMachine\State.h" />
     <ClInclude Include="src\StateMachine\StateMachine.h" />
+    <ClInclude Include="src\Entities\Vastag.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\gamma.frag" />
