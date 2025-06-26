@@ -1,17 +1,22 @@
+#include "Game.h"
 #include "NightState.h"
 #include "ShaderManager.h"
 #include <iostream>
 
 NightState::NightState(GameDataRef data)
     :data(data),
-    office(data, mousePos)
+    office(data, mousePos),
+    camera(data, mousePos)
 {
 	
 }
 
 void NightState::Start()
 {                     
-	office.Setup();
+	///office.Setup();
+    ///camera.Setup();
+    NightManager.AddView((GameViewRef)new Camera(data, mousePos), "camera");
+    NightManager.AddView((GameViewRef)new Office(data, mousePos), "office");
 }
 
 void NightState::HandleInput()
@@ -20,48 +25,36 @@ void NightState::HandleInput()
     {
         mousePos = data->window.mapPixelToCoords(sf::Mouse::getPosition(data->window));
 
-
         if (event->is<sf::Event::Closed>()) {
             data->window.close();
         }
-
 
         if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
             if (sf::Keyboard::Key::Escape == keyPressed->code) {
                 data->machine.RemoveState();
             }
-        }
-
-        if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
-            if (sf::Mouse::Button::Left == mousePressed->button) {
-				office.CheckButtons();
-            }
-        }
-		if (const auto* mouseReleased = event->getIf<sf::Event::MouseButtonReleased>()) {
-            if (sf::Mouse::Button::Left == mouseReleased->button) {
-
-				office.MouseReleased();
+            if (sf::Keyboard::Key::Space == keyPressed->code) {
+                NightManager.SwitchView(player.SwitchState());
             }
         }
 
-        if (const auto* mouseMoved = event->getIf<sf::Event::MouseMoved>()) {
-			office.CheckScroll();
-        }
+
+        NightManager.HandleViewInput(event);
+        ///office.HandleInput(event);
     }
 }
 
 void NightState::Update()
 {
-	office.Update();
+    NightManager.UpdateView();
+	///office.Update();
 }
 
 void NightState::Render()
 {
-	data->window.clear();
-
-	office.Render();
-
-	data->window.display();
+    NightManager.RenderView();
+	///office.Render();
+    //camera.Render();	
 }
 
 void NightState::Stop()

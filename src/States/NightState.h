@@ -1,7 +1,10 @@
 #pragma once
 #include "State.h"
-#include "Game.h"
+#include "GameFwd.h"
 #include "Office.h"
+#include "Camera.h"
+#include "Player.h"
+#include "NightViewManager.h"
 
 class NightState : public State
 {
@@ -18,5 +21,8 @@ private:
 	GameDataRef data;
 	sf::Vector2f mousePos;
 	Office office;
+	Camera camera;
+	Player player;
+	NightViewManager NightManager;
 };
 

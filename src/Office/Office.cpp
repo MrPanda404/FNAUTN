@@ -1,11 +1,11 @@
+#include "Game.h"
 #include "Office.h"
 #include <iostream>
 
 Office::Office(GameDataRef data, const sf::Vector2f& mousePos)
-	:data(data),
+	:GameView(data, mousePos),
 	scroll(Center),
 	scrollOffset(9),
-	mousePos(mousePos),
 	lightsOn(false)
 {
 }
@@ -14,71 +14,70 @@ void Office::Setup()
 {
 
 	//Textures and Sprites
+	{
+		std::vector<std::string> name = {
+			"L00", "FFFF", "R00", "L01", "0000", "R01"
+		};
 
-	std::vector<std::string> name = {
-		"L00", "FFFF", "R00", "L01", "0000", "R01"
-	};
+		AssetManager::LoadTextureGroup(officeTextures, name, "office");
 
-	for (auto& n : name) {
-		AssetManager::LoadTexture(officeTextures, n, "office");
+		///Agregar sobrecarga a AssetManager (LoadTextureGroup)
+		///Tanto de solo texturas como sin pushear orden.
+
+		for (auto& t : officeTextures) {
+			t.second.setSmooth(true);
+		}
+
+		officeSprites = {
+			sf::Sprite(officeTextures.at(name[0])),
+			sf::Sprite(officeTextures.at(name[1])),
+			sf::Sprite(officeTextures.at(name[2]))
+		};
+
+		officeSprites[0].setPosition({ -1000,0 });
+		officeSprites[1].setPosition({ 130,0 });
+		officeSprites[2].setPosition({ 1470,0 });
+
+		renderTexture.setSmooth(true);
+		if (!renderTexture.resize((sf::Vector2u)data->window.getView().getSize())) {
+			std::cerr << "RenderTexture creation failed" << std::endl;
+		}
+
 	}
-	///Agregar sobrecarga a AssetManager (LoadTextureGroup)
-	///Tanto de solo texturas como sin pushear orden.
-
-	for (auto& t : officeTextures) {
-		t.second.setSmooth(true);
-	}
-
-	officeSprites = {
-		sf::Sprite(officeTextures.at(name[0])),
-		sf::Sprite(officeTextures.at(name[1])),
-		sf::Sprite(officeTextures.at(name[2]))
-	};
-
-	officeSprites[0].setPosition({ -1000,0 });
-	officeSprites[1].setPosition({ 130,0 });
-	officeSprites[2].setPosition({ 1470,0 });
-
-
-
-
-	renderTexture.setSmooth(true);
-	if (!renderTexture.resize((sf::Vector2u)data->window.getView().getSize())) {
-		std::cerr << "RenderTexture creation failed" << std::endl;
-	}
-
 
 	//Buttons
-
-	officeButtons = {
-		Button("LeftDoor", { 844 + officeSprites[0].getPosition().x , 240 }, { 222 , 550 }),//0
-		Button("RightDoor", { 2534 + officeSprites[0].getPosition().x , 240 }, { 222 , 550 }),//1
-		Button("Light", { 1239 + officeSprites[0].getPosition().x , 154} , {1122 , 427}),//2
-	};
-
-
-	officeButtons[2].SetFunction([this]() {
-		std::vector<std::string> name = {
-		"L01", "0000", "R01"
+	{
+		officeButtons = {
+			Button("LeftDoor", { 844 + officeSprites[0].getPosition().x , 240 }, { 222 , 550 }),//0
+			Button("RightDoor", { 2534 + officeSprites[0].getPosition().x , 240 }, { 222 , 550 }),//1
+			Button("Light", { 1239 + officeSprites[0].getPosition().x , 154} , {1122 , 427}),//2
 		};
-		if (officeTextures.count(name[0]) == 0) {
-			AssetManager::LoadTexture(officeTextures, name[0], "office");
-			AssetManager::LoadTexture(officeTextures, name[1], "office");
-			AssetManager::LoadTexture(officeTextures, name[2], "office");
-		}
-		int i = 0;
-		for (auto& s : officeSprites) {
-			s.setTexture(officeTextures.at(name[i]), true);
-			i++;
-		}
-		lightsOn = true;
-		});
+
+
+		officeButtons[2].SetFunction([this]() {
+			std::vector<std::string> name = {
+			"L01", "0000", "R01"
+			};
+			if (officeTextures.count(name[0]) == 0) {
+				AssetManager::LoadTexture(officeTextures, name[0], "office");
+				AssetManager::LoadTexture(officeTextures, name[1], "office");
+				AssetManager::LoadTexture(officeTextures, name[2], "office");
+			}
+			int i = 0;
+			for (auto& s : officeSprites) {
+				s.setTexture(officeTextures.at(name[i]), true);
+				i++;
+			}
+			lightsOn = true;
+			});
+	}
 
 	//Shaders
+	{
+		ShaderManager::LoadShader(perspectiveShader, "perspective.frag", "src");
 
-	ShaderManager::LoadShader(perspectiveShader, "perspective.frag", "src");
-
-	perspectiveShader.setUniform("texture", sf::Shader::CurrentTexture);
+		perspectiveShader.setUniform("texture", sf::Shader::CurrentTexture);
+	}
 }
 
 void Office::Update()
@@ -92,6 +91,8 @@ void Office::Update()
 
 void Office::Render()
 {
+	data->window.clear();
+
 	renderTexture.clear();
 
 	for (const auto& s : officeSprites) {
@@ -106,6 +107,8 @@ void Office::Render()
 
 	///Game::DrawOnWindow(test, data->window);
 	Game::DrawOnWindow(officeButtons, data->window);
+
+	data->window.display();
 }
 
 void Office::CheckButtons()
@@ -143,6 +146,25 @@ void Office::MouseReleased()
 			s.setTexture(officeTextures.at(name[i]), true);
 			i++;
 		}
+	}
+}
+
+void Office::HandleInput(const std::optional<sf::Event>& event)
+{
+	if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
+		if (sf::Mouse::Button::Left == mousePressed->button) {
+			CheckButtons();
+		}
+	}
+
+	if (const auto* mouseReleased = event->getIf<sf::Event::MouseButtonReleased>()) {
+		if (sf::Mouse::Button::Left == mouseReleased->button) {
+			MouseReleased();
+		}
+	}
+
+	if (const auto* mouseMoved = event->getIf<sf::Event::MouseMoved>()) {
+		CheckScroll();
 	}
 }
 

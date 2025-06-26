@@ -86,6 +86,18 @@ public:
 	);
 
 	/// <summary>
+	/// Loads a group of textures into the provided textures map using the names as key.
+	/// </summary>
+	/// <param name="textures">Map where the texture are stored.</param>
+	/// <param name="names">List of textures names to load and use as key.</param>
+	/// <param name="folder">Folder path of the texture.</param>
+	static void LoadTextureGroup(
+		std::unordered_map<std::string, sf::Texture>& textures,
+		const std::vector<std::string>& names,
+		const std::string& folder
+	);
+
+	/// <summary>
 	/// Sets the origin of each sprite in the provided map to its center.
 	/// </summary>
 	/// <param name="sprites">Map where the sprites are stored.</param>

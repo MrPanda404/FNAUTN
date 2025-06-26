@@ -74,6 +74,16 @@ void AssetManager::LoadTextureGroup(
 	}
 }
 
+void AssetManager::LoadTextureGroup(
+	std::unordered_map<std::string, sf::Texture>& textures,
+	const std::vector<std::string>& names,
+	const std::string& folder)
+{
+	for (const std::string& name : names) {
+		LoadTexture(textures, name, folder);
+	}
+}
+
 void AssetManager::CenterSprites(std::unordered_map<std::string, sf::Sprite>& sprites)
 {
 	for (auto& s : sprites) {

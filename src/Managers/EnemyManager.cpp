@@ -1,5 +1,9 @@
 #include "EnemyManager.h"
 
+EnemyManager::EnemyManager()
+{
+}
+
 void EnemyManager::AddEnemy(EnemyRef enemyRef)
 {
 	enemies.push_back(std::move(enemyRef));

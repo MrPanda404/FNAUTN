@@ -1,6 +1,6 @@
 #pragma once
 #include "State.h"
-#include "Game.h"
+#include "GameFwd.h"
 
 
 enum MenuView {

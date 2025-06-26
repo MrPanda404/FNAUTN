@@ -1,3 +1,4 @@
+#include "Game.h"
 #include "MenuState.h"
 #include "NightState.h"
 
