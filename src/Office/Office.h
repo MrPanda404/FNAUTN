@@ -21,6 +21,7 @@ public:
 
 	// Inherited via GameView
 	void Setup() override;
+	void Enter() override;
 	void HandleInput(const std::optional<sf::Event>& event) override;
 	void Update() override;
 	void Render() override;

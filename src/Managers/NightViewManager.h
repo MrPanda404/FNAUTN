@@ -6,7 +6,7 @@
 #include "SFML/Window/Event.hpp"
 #include <optional>
 
-typedef std::unique_ptr<GameView> GameViewRef;
+typedef GameView& GameViewRef;
 
 class NightViewManager
 {

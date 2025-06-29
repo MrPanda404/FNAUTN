@@ -5,6 +5,7 @@ Player::Player()
 {
 }
 
+
 std::string Player::SwitchState()
 {
 	isLookingAtCams = !isLookingAtCams;

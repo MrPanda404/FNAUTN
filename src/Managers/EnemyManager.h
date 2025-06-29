@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <memory>
+#include <unordered_map>
 
 #include "Enemy.h"
 
@@ -14,6 +15,8 @@ public:
 	void AddEnemy(EnemyRef enemyRef);
 	void StartAll();
 	void UpdateAll();
+
+	std::unordered_map<int, const sf::Vector2i*> getPosAndIDs();
 private:
 	std::vector<EnemyRef> enemies;
 };

@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Player.h"
 #include "NightViewManager.h"
+#include "EnemyManager.h"
 
 class NightState : public State
 {
@@ -23,6 +24,11 @@ private:
 	Office office;
 	Camera camera;
 	Player player;
-	NightViewManager NightManager;
+	NightViewManager nightManager;
+	EnemyManager enemyManager;
+
+	bool spacePressed;
+
+	bool allLoaded;
 };
 

@@ -10,6 +10,9 @@ public:
 	virtual void Start() = 0;
 	virtual void Update() = 0;
 	virtual void Stop() = 0;
+
+	std::pair<int, const sf::Vector2i*> GetPosAndID() { return { ID, &currentPos }; }
+
 protected:
 	std::string name;
 	int ID;
@@ -17,7 +20,7 @@ protected:
 	sf::Vector2i currentPos;
 	int lastRoom;
 
-	int difficulty;
+	std::vector<int> difficulty;
 	float opportunityRate;
 
 	bool attackMode;

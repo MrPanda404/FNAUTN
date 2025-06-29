@@ -2,25 +2,39 @@
 #include "NightState.h"
 #include "ShaderManager.h"
 #include <iostream>
+#include "Kloster.h"
+#include "Mati.h"
+#include "Maxi.h"
+#include "Vastag.h"
+
 
 NightState::NightState(GameDataRef data)
     :data(data),
     office(data, mousePos),
-    camera(data, mousePos)
+    camera(data, mousePos),
+    spacePressed(false),
+    allLoaded(false)
 {
-	
+    enemyManager.AddEnemy((EnemyRef)new Kloster());
+    enemyManager.AddEnemy((EnemyRef)new Mati());
+    enemyManager.AddEnemy((EnemyRef)new Maxi());
+    enemyManager.AddEnemy((EnemyRef)new Vastag());
+    enemyManager.StartAll();
+
+    camera.SetPosReference(enemyManager.getPosAndIDs());
 }
 
 void NightState::Start()
-{                     
-	///office.Setup();
-    ///camera.Setup();
-    NightManager.AddView((GameViewRef)new Camera(data, mousePos), "camera");
-    NightManager.AddView((GameViewRef)new Office(data, mousePos), "office");
+{
+    nightManager.AddView(camera, "camera");
+    nightManager.AddView(office, "office");
+    allLoaded = true;
 }
 
 void NightState::HandleInput()
 {
+    if (!allLoaded) return;
+
     while (const std::optional<sf::Event> event = data->window.pollEvent())
     {
         mousePos = data->window.mapPixelToCoords(sf::Mouse::getPosition(data->window));
@@ -33,30 +47,34 @@ void NightState::HandleInput()
             if (sf::Keyboard::Key::Escape == keyPressed->code) {
                 data->machine.RemoveState();
             }
-            if (sf::Keyboard::Key::Space == keyPressed->code) {
-                NightManager.SwitchView(player.SwitchState());
+
+            if (sf::Keyboard::Key::Space == keyPressed->code && !spacePressed) {
+                nightManager.SwitchView(player.SwitchState());
+                spacePressed = true;
             }
         }
 
-
-        NightManager.HandleViewInput(event);
-        ///office.HandleInput(event);
+        if (const auto* keyReleased = event->getIf <sf::Event::KeyReleased>()) {
+            if (sf::Keyboard::Key::Space == keyReleased->code) {
+                spacePressed = false;
+            }
+        }
+        nightManager.HandleViewInput(event);
     }
 }
 
 void NightState::Update()
 {
-    NightManager.UpdateView();
-	///office.Update();
+    if (!allLoaded) return;
+    nightManager.UpdateView();
 }
 
 void NightState::Render()
 {
-    NightManager.RenderView();
-	///office.Render();
-    //camera.Render();	
+    nightManager.RenderView();
 }
 
 void NightState::Stop()
 {
+    
 }

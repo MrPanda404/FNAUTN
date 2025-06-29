@@ -6,29 +6,29 @@ NightViewManager::NightViewManager()
 
 void NightViewManager::AddView(GameViewRef view, std::string name)
 {
-	view.get()->Setup();
-	views.insert({name, std::move(view)});
+	view.Setup();
+	views.insert({name, view});
 	currentView = name;
 }
 
 void NightViewManager::HandleViewInput(const std::optional<sf::Event>& event)
 {
 	if (auto it = views.find(currentView); it != views.end()) {
-		it->second->HandleInput(event);
+		it->second.HandleInput(event);
 	}
 }
 
 void NightViewManager::UpdateView()
 {
 	if (auto it = views.find(currentView); it != views.end()) {
-		it->second->Update();
+		it->second.Update();
 	}
 }
 
 void NightViewManager::RenderView()
 {
 	if (auto it = views.find(currentView); it != views.end()) {
-		it->second->Render();
+		it->second.Render();
 	}
 }
 

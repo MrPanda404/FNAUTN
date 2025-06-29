@@ -78,6 +78,11 @@ void Office::Setup()
 
 		perspectiveShader.setUniform("texture", sf::Shader::CurrentTexture);
 	}
+
+}
+
+void Office::Enter()
+{
 }
 
 void Office::Update()
@@ -146,6 +151,7 @@ void Office::MouseReleased()
 			s.setTexture(officeTextures.at(name[i]), true);
 			i++;
 		}
+		lightsOn = false;
 	}
 }
 
