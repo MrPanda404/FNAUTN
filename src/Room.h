@@ -1,0 +1,36 @@
+#pragma once
+#include <vector>
+#include <array>
+
+struct RoomData {
+	int ID = 0;
+	int spots = 0;
+	std::vector<bool> spotOccupied;
+	std::vector<int> adyacentRoomsIDs;
+
+	RoomData() = default;
+
+	RoomData(int id, int numSpots, std::vector<bool> occupied, std::vector<int> adyacents)
+		: ID(id), spots(numSpots), spotOccupied(std::move(occupied)), adyacentRoomsIDs(adyacents) {}
+};
+
+//room =      {1a, 2a, 3, 4, 5, 6, 7, 1b, 2b, 8}
+
+//roomID =    {0,  1,  2, 3, 4, 5, 6,  7,  8, 9}
+//roomspots = {7,  5,  2, 3, 5, 2, 3,  4,  3, 3}
+//adycrooms = {4,  4,  1, 1, 1, 1, 1,  1,  1, 1}
+
+class Room
+{
+public:
+	Room() = default;
+	~Room() = default;
+
+	static void SetupRooms();
+	static void SetOccupied(int ID, int spot, bool state);
+
+private:
+	static std::array<RoomData, 10> rooms;
+	static bool setedUp;
+};
+

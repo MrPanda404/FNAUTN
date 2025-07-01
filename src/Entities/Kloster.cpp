@@ -5,7 +5,7 @@ void Kloster::Start()
     {
         name = "Kloster";
         ID = 0;
-        currentPos = { 4, 4 };
+        setPosition({ 4,4 });
 
         sequence = {
             {4,4},

@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Room.cpp" />
     <ClCompile Include="src\Managers\NightViewManager.cpp" />
     <ClCompile Include="src\Office\Camera.cpp" />
     <ClCompile Include="src\Office\Office.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="src\Entities\Vastag.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Room.h" />
     <ClInclude Include="src\Managers\NightViewManager.h" />
     <ClInclude Include="src\GameFwd.h" />
     <ClInclude Include="src\Office\GameView.h" />

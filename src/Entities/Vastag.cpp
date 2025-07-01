@@ -5,7 +5,7 @@ void Vastag::Start()
 	{
 		name = "Vastag";
 		ID = 3;
-		currentPos = { 6, 2 };
+		setPosition({ 6,2 });
 
 		sequence = {
 			{0,5},

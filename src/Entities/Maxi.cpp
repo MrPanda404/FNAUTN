@@ -5,7 +5,7 @@ void Maxi::Start()
 	{
 		name = "Maxi";
 		ID = 2;
-		currentPos = { 4, 1 };
+		setPosition({ 4,1 });
 
 		sequence = {
 			{7, 3},

@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <SFML/System/Vector2.hpp>
+#include "Room.h"
 
 class Enemy
 {
@@ -13,11 +14,17 @@ public:
 
 	std::pair<int, const sf::Vector2i*> GetPosAndID() { return { ID, &currentPos }; }
 
+	void setPosition(sf::Vector2i pos) { 
+		Room::SetOccupied(currentPos.x, currentPos.y, false);
+		currentPos = pos; 
+		Room::SetOccupied(currentPos.x, currentPos.y, true);
+	}
+
 protected:
 	std::string name;
 	int ID;
 
-	sf::Vector2i currentPos;
+	sf::Vector2i currentPos = {0,1};
 	int lastRoom;
 
 	std::vector<int> difficulty;

@@ -5,7 +5,7 @@ void Mati::Start()
 	{
 		name = "Mati";
 		ID = 1;
-		currentPos = { 9, 1 };
+		setPosition({ 9,1 });
 
 		sequence = {
 			{8, 2 },

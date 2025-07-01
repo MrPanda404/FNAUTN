@@ -31,7 +31,7 @@ std::unordered_map<int, const sf::Vector2i*> EnemyManager::getPosAndIDs()
 	for (auto& enemy : enemies) {
 		posAndIDs.insert(enemy->GetPosAndID());
 
-		std::cout << enemy.get()->GetPosAndID().first + " - " << enemy.get()->GetPosAndID().second << std::endl;
+		std::cout<<enemy->GetPosAndID().second->x << " - " << enemy->GetPosAndID().second->y<< " (EnemyManager.cpp)" << std::endl;
 	}
 
 	return posAndIDs;

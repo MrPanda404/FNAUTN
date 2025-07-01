@@ -6,6 +6,7 @@
 #include "Mati.h"
 #include "Maxi.h"
 #include "Vastag.h"
+#include "Room.h"
 
 
 NightState::NightState(GameDataRef data)
@@ -15,6 +16,7 @@ NightState::NightState(GameDataRef data)
     spacePressed(false),
     allLoaded(false)
 {
+    Room::SetupRooms();
     enemyManager.AddEnemy((EnemyRef)new Kloster());
     enemyManager.AddEnemy((EnemyRef)new Mati());
     enemyManager.AddEnemy((EnemyRef)new Maxi());
