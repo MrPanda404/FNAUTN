@@ -23,7 +23,10 @@ public:
 	void SetupScaleAndPositions();
 	void UpdateCam();
 	void SetPosReference(std::unordered_map<int, const sf::Vector2i*> posRef);
+	void SetMovedReference(std::unordered_map<int, const bool*> movedRef);
+	void SetLastRoomReference(std::unordered_map<int, const int*> lastRoomRef);
 	void SetSwitchSprite();
+	void CheckIfMoved();
 
 private:
 	std::unordered_map<std::string, sf::Texture> cameraTextures;
@@ -45,6 +48,8 @@ private:
 	std::string currentButton = "1a";
 
 	std::unordered_map<int, const sf::Vector2i*> enemyPositions;
+	std::unordered_map<int, const bool*> enemyMoved;
+	std::unordered_map<int, const int*> lastRoom;
 
 };
 

@@ -1,11 +1,16 @@
 #include "Kloster.h"
 
+Kloster::Kloster(const float& dt)
+{
+    deltaTime = &dt;
+}
+
 void Kloster::Start()
 {
     {
         name = "Kloster";
         ID = 0;
-        setPosition({ 4,4 });
+        SetPosition({ 4,4 });
 
         sequence = {
             {4,4},

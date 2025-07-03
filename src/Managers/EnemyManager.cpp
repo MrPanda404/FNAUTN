@@ -24,7 +24,7 @@ void EnemyManager::UpdateAll()
 	}
 }
 
-std::unordered_map<int, const sf::Vector2i*> EnemyManager::getPosAndIDs()
+std::unordered_map<int, const sf::Vector2i*> EnemyManager::GetPosAndIDs()
 {
 	std::unordered_map<int, const sf::Vector2i*> posAndIDs;
 
@@ -35,4 +35,31 @@ std::unordered_map<int, const sf::Vector2i*> EnemyManager::getPosAndIDs()
 	}
 
 	return posAndIDs;
+}
+
+std::unordered_map<int, const bool*> EnemyManager::GetMovedAndID()
+{
+	std::unordered_map<int, const bool*> movedList;
+	for (auto& enemy : enemies) {
+		movedList.insert(enemy->GetMovedAndID());
+	}
+
+	return movedList;
+}
+
+std::unordered_map<int, const int*> EnemyManager::GetLastRoomAndID()
+{
+	std::unordered_map<int, const int*> lastRoomReference;
+	for (auto& enemy : enemies) {
+		lastRoomReference.insert(enemy->GetLastRoomAndID());
+	}
+
+	return lastRoomReference;
+}
+
+void EnemyManager::ResetMoved()
+{
+	for (auto& enemy : enemies) {
+		enemy->ResetMoved();
+	}
 }

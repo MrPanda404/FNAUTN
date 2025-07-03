@@ -101,6 +101,7 @@ void Camera::Setup()
 
 void Camera::Update()
 {
+	CheckIfMoved();
 }
 
 void Camera::Render()
@@ -215,10 +216,17 @@ void Camera::UpdateCam()
 
 void Camera::SetPosReference(std::unordered_map<int, const sf::Vector2i*> posRef)
 {
-	for (const auto& [id, pos] : posRef) {
-		enemyPositions[id] = pos;
-		///std::cout << id + " - " << pos << std::endl;
-	}
+	enemyPositions = posRef;
+}
+
+void Camera::SetMovedReference(std::unordered_map<int, const bool*> movedRef)
+{
+	enemyMoved = movedRef;
+}
+
+void Camera::SetLastRoomReference(std::unordered_map<int, const int*> lastRoomRef)
+{
+	lastRoom = lastRoomRef;
 }
 
 void Camera::SetSwitchSprite()
@@ -250,6 +258,28 @@ void Camera::SetSwitchSprite()
 				AssetManager::LoadTexture(cameraTextures, mapHold[2], "textures");
 			}
 			cameraSprites.at(2).setTexture(cameraTextures.at(mapHold[2]));
+		}
+	}
+}
+
+void Camera::CheckIfMoved()
+{
+	for (auto moved : enemyMoved) {
+		if (*moved.second) {
+			int currentID;
+			std::cout << "Checking " << moved.first << " Bool: "<< *moved.second << std::endl;
+
+			if (currentFloor == Bottom) {
+				currentID = bottomCamID;
+			}
+			else {
+				currentID = topCamID;
+			}
+			if (enemyPositions[moved.first]->x == currentID || *lastRoom[moved.first] == currentID) {
+				std::cout << "Updating cam" << std::endl;
+				UpdateCam();
+				return;
+			}
 		}
 	}
 }

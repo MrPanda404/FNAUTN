@@ -2,11 +2,7 @@
 #include "NightState.h"
 #include "ShaderManager.h"
 #include <iostream>
-#include "Kloster.h"
-#include "Mati.h"
-#include "Maxi.h"
-#include "Vastag.h"
-#include "Room.h"
+#include "NightInclude.h"
 
 
 NightState::NightState(GameDataRef data)
@@ -17,13 +13,15 @@ NightState::NightState(GameDataRef data)
     allLoaded(false)
 {
     Room::SetupRooms();
-    enemyManager.AddEnemy((EnemyRef)new Kloster());
-    enemyManager.AddEnemy((EnemyRef)new Mati());
-    enemyManager.AddEnemy((EnemyRef)new Maxi());
-    enemyManager.AddEnemy((EnemyRef)new Vastag());
+    enemyManager.AddEnemy((EnemyRef)new Kloster(data->dt));
+    enemyManager.AddEnemy((EnemyRef)new Mati(data->dt));
+    enemyManager.AddEnemy((EnemyRef)new Maxi(data->dt));
+    enemyManager.AddEnemy((EnemyRef)new Vastag(data->dt));
     enemyManager.StartAll();
 
-    camera.SetPosReference(enemyManager.getPosAndIDs());
+    camera.SetPosReference(enemyManager.GetPosAndIDs());
+    camera.SetMovedReference(enemyManager.GetMovedAndID());
+    camera.SetLastRoomReference(enemyManager.GetLastRoomAndID());
 }
 
 void NightState::Start()
@@ -68,7 +66,9 @@ void NightState::HandleInput()
 void NightState::Update()
 {
     if (!allLoaded) return;
+    enemyManager.UpdateAll();
     nightManager.UpdateView();
+    enemyManager.ResetMoved();
 }
 
 void NightState::Render()

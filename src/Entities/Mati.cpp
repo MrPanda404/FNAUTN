@@ -1,11 +1,16 @@
 #include "Mati.h"
 
+Mati::Mati(const float& dt)
+{
+	deltaTime = &dt;
+}
+
 void Mati::Start()
 {
 	{
 		name = "Mati";
 		ID = 1;
-		setPosition({ 9,1 });
+		SetPosition({ 9,1 });
 
 		sequence = {
 			{8, 2 },

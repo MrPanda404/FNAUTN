@@ -1,12 +1,13 @@
 #include "Room.h"
+#include "Random.h"
 
 std::array<RoomData, 10> Room::rooms = {};
-bool Room::setedUp = false;
+bool Room::initialized = false;
 
 void Room::SetupRooms()
 {
-	if (setedUp) return;
-	setedUp = true;
+	if (initialized) return;
+	initialized = true;
 
 	rooms = {
 		RoomData(0, 7, std::vector<bool>(7, false), {1, 6, 7}),//1a
@@ -24,6 +25,23 @@ void Room::SetupRooms()
 
 void Room::SetOccupied(int ID, int spot, bool state)
 {
+	if (spot <= 0) return;
 	rooms.at(ID).spotOccupied.at(spot - 1) = state;
 	//ID = array position. (Hopefully)
+}
+
+int Room::GetRandomAdyacent(int ID)
+{
+	return rooms.at(ID).adyacentRoomsIDs.at(Random::GetInt(0,rooms.at(ID).adyacentRoomsIDs.size() -1));
+}
+
+int Room::GetSpots(int ID)
+{
+	return rooms.at(ID).spots;
+}
+
+bool Room::CheckOccupied(int ID, int spot)
+{
+	if (spot <= 0) return true;
+	return rooms.at(ID).spotOccupied.at(spot - 1);
 }

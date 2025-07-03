@@ -1,11 +1,20 @@
 #include "Vastag.h"
 
+Vastag::Vastag(const float& dt)
+	: roomsFilter({0})
+{
+	deltaTime = &dt;
+}
+
 void Vastag::Start()
 {
 	{
 		name = "Vastag";
 		ID = 3;
-		setPosition({ 6,2 });
+		SetPosition({ 6,2 });
+
+		roomsFilter = { 3, 4, 5, 7 };
+		spotsFilter = {sf::Vector2i { 1, 4 }, { 1, 3 }, { 1, 2 }, { 1, 1 }, { 0, 7 }, { 0, 6 } };
 
 		sequence = {
 			{0,5},

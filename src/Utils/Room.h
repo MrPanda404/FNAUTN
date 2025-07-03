@@ -28,9 +28,12 @@ public:
 
 	static void SetupRooms();
 	static void SetOccupied(int ID, int spot, bool state);
+	static int GetRandomAdyacent(int ID);
+	static int GetSpots(int ID);
+	static bool CheckOccupied(int ID, int spot);
 
 private:
 	static std::array<RoomData, 10> rooms;
-	static bool setedUp;
+	static bool initialized;
 };
 

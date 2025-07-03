@@ -16,7 +16,10 @@ public:
 	void StartAll();
 	void UpdateAll();
 
-	std::unordered_map<int, const sf::Vector2i*> getPosAndIDs();
+	std::unordered_map<int, const sf::Vector2i*> GetPosAndIDs();
+	std::unordered_map<int, const bool*> GetMovedAndID();
+	std::unordered_map<int, const int*> GetLastRoomAndID();
+	void ResetMoved();
 private:
 	std::vector<EnemyRef> enemies;
 };

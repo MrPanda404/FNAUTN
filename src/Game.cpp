@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "MenuState.h"
+#include "Random.h"
 
 Game::Game(sf::VideoMode videomode, std::string title)
 {
@@ -8,6 +9,8 @@ Game::Game(sf::VideoMode videomode, std::string title)
 	data->window.setView(view);
 
 	data->machine.AddState(StateRef(new MenuState(data)));
+
+	Random::Init();
 
 	Run();
 }
@@ -21,10 +24,12 @@ void Game::Run()
 
 
 	deltaTime.restart();
+	const float maxDeltaTime = 0.2f;
 
 	while (data->window.isOpen())
 	{
 		data->dt = deltaTime.restart().asSeconds();
+		if (data->dt > maxDeltaTime) data->dt = maxDeltaTime;
 
 		data->machine.ProcessStateChanges();
 

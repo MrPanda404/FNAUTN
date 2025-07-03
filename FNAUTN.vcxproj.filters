@@ -66,7 +66,10 @@
     <ClCompile Include="src\Managers\NightViewManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Room.cpp">
+    <ClCompile Include="src\Utils\Room.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,13 +128,19 @@
     <ClInclude Include="src\Office\GameView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameFwd.h">
+    <ClInclude Include="src\Utils\GameFwd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Managers\NightViewManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Room.h">
+    <ClInclude Include="src\Utils\Room.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\NightInclude.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

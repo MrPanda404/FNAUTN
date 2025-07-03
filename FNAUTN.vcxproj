@@ -113,7 +113,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src/Office;$(SolutionDir)src/States;$(SolutionDir)src/UI;$(SolutionDir)src/StateMachine;$(SolutionDir)src/Entities;$(SolutionDir)src/Managers;$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\Utils;$(SolutionDir)src\Office;$(SolutionDir)src\States;$(SolutionDir)src\UI;$(SolutionDir)src\StateMachine;$(SolutionDir)src\Entities;$(SolutionDir)src\Managers;$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,7 +129,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src/Office;$(SolutionDir)src/States;$(SolutionDir)src/UI;$(SolutionDir)src/StateMachine;$(SolutionDir)src/Entities;$(SolutionDir)src/Managers;$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\Utils;$(SolutionDir)src\Office;$(SolutionDir)src\States;$(SolutionDir)src\UI;$(SolutionDir)src\StateMachine;$(SolutionDir)src\Entities;$(SolutionDir)src\Managers;$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,7 +141,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Room.cpp" />
+    <ClCompile Include="src\Utils\Random.cpp" />
+    <ClCompile Include="src\Utils\Room.cpp" />
     <ClCompile Include="src\Managers\NightViewManager.cpp" />
     <ClCompile Include="src\Office\Camera.cpp" />
     <ClCompile Include="src\Office\Office.cpp" />
@@ -160,9 +162,11 @@
     <ClCompile Include="src\Entities\Vastag.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Room.h" />
+    <ClInclude Include="src\Utils\NightInclude.h" />
+    <ClInclude Include="src\Utils\Random.h" />
+    <ClInclude Include="src\Utils\Room.h" />
     <ClInclude Include="src\Managers\NightViewManager.h" />
-    <ClInclude Include="src\GameFwd.h" />
+    <ClInclude Include="src\Utils\GameFwd.h" />
     <ClInclude Include="src\Office\GameView.h" />
     <ClInclude Include="src\Office\Camera.h" />
     <ClInclude Include="src\Office\Office.h" />
