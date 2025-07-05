@@ -36,5 +36,6 @@ void NightViewManager::SwitchView(std::string viewName)
 {
 	if (views.find(viewName) != views.end() ) {
 		currentView = viewName;
+		views.at(currentView).Enter();
 	}
 }

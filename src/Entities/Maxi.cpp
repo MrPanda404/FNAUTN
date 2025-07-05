@@ -27,7 +27,7 @@ void Maxi::Start()
 
 		currentDifficulty = difficulty.at(5);
 
-		moveInterval = 3.15f;
+		moveInterval = 0.2;
 	}
 }
 
@@ -61,10 +61,10 @@ void Maxi::Move()
 	}
 	else {
 		std::cout << "New Room" << std::endl;
-		newRoom = Room::GetRandomAdyacent(currentPos.x);
+		newRoom = Room::GetValidRandomAdyacent(currentPos.x, roomsFilter);
 	}
 
-	newSpot = Random::GetInt(1, Room::GetSpots(newRoom));
+	newSpot = Room::GetValidRandomSpot(newRoom, currentPos, spotsFilter);
 
 	if (Room::CheckOccupied(newRoom, newSpot)) {
 		std::cout << "Room: " << currentPos.x << " - Spot: " << currentPos.y << std::endl;

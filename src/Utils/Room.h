@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <array>
+#include <SFML/System/Vector2.hpp>
 
 struct RoomData {
 	int ID = 0;
@@ -29,7 +30,9 @@ public:
 	static void SetupRooms();
 	static void SetOccupied(int ID, int spot, bool state);
 	static int GetRandomAdyacent(int ID);
+	static int GetValidRandomAdyacent(int ID, std::vector<int>& roomsFilter);
 	static int GetSpots(int ID);
+	static int GetValidRandomSpot(int ID, sf::Vector2i& currentSpot, std::vector<sf::Vector2i>& spotsFilter);
 	static bool CheckOccupied(int ID, int spot);
 
 private:

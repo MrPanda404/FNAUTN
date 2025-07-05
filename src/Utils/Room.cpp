@@ -1,5 +1,6 @@
 #include "Room.h"
 #include "Random.h"
+#include <iostream>
 
 std::array<RoomData, 10> Room::rooms = {};
 bool Room::initialized = false;
@@ -35,9 +36,39 @@ int Room::GetRandomAdyacent(int ID)
 	return rooms.at(ID).adyacentRoomsIDs.at(Random::GetInt(0,rooms.at(ID).adyacentRoomsIDs.size() -1));
 }
 
+int Room::GetValidRandomAdyacent(int ID, std::vector<int>& roomsFilter)
+{
+	int newRoom = ID;
+	do
+	{
+		newRoom = GetRandomAdyacent(ID);
+	} while (std::find(roomsFilter.begin(), roomsFilter.end(), newRoom) != roomsFilter.end());
+
+	return newRoom;
+}
+
 int Room::GetSpots(int ID)
 {
 	return rooms.at(ID).spots;
+}
+
+int Room::GetValidRandomSpot(int ID, sf::Vector2i& currentSpot, std::vector<sf::Vector2i>& spotsFilter)
+{
+	int newSpot = currentSpot.y;
+	bool filter = false;
+
+	do
+	{
+		newSpot = Random::GetInt(1, Room::GetSpots(ID));
+		filter = std::find(spotsFilter.begin(), spotsFilter.end(), sf::Vector2i(ID, newSpot)) != spotsFilter.end() ||
+				sf::Vector2i(ID, newSpot) == currentSpot;
+		if (filter) {
+			std::cout << "Filtrado 1: " << (std::find(spotsFilter.begin(), spotsFilter.end(), sf::Vector2i(ID, newSpot)) != spotsFilter.end() ? true : false) << std::endl;
+			std::cout << "Filtrado 2: " << (sf::Vector2i(ID, newSpot) == currentSpot ? true : false) << std::endl;
+		}
+	} while (filter);
+
+	return newSpot;
 }
 
 bool Room::CheckOccupied(int ID, int spot)

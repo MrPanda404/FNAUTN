@@ -13,7 +13,7 @@ public:
 
 	void Move();
 private:
-	std::array<int, 3> roomsFilter;
-	std::array<sf::Vector2i, 3> spotsFilter;
+	std::vector<int> roomsFilter;
+	std::vector<sf::Vector2i> spotsFilter;
 };
 
