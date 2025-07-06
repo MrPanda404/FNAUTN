@@ -1,7 +1,7 @@
 #pragma once
-#include "Enemy.h"
+#include "RandomMovingEnemy.h"
 
-class Vastag : public Enemy
+class Vastag : public RandomMovingEnemy
 {
 public:
 	Vastag() = default;
@@ -10,8 +10,5 @@ public:
 	void Start() override;
 	void Update() override;
 	void Stop() override;
-private:
-	std::array<int, 4> roomsFilter;
-	std::array<sf::Vector2i, 6> spotsFilter;
 };
 

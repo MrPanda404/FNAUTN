@@ -21,6 +21,8 @@ void Mati::Start()
 		};
 
 		difficulty = { 0, 1, 2, 6, 5, 16 };
+
+		moveInterval = 4.9f;
 	}
 }
 
@@ -29,5 +31,9 @@ void Mati::Update()
 }
 
 void Mati::Stop()
+{
+}
+
+void Mati::Move()
 {
 }

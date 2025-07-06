@@ -72,6 +72,12 @@
     <ClCompile Include="src\Utils\Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Entities\EnemyClasses\Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entities\EnemyClasses\RandomMovingEnemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\StateMachine\State.h">
@@ -101,7 +107,7 @@
     <ClInclude Include="src\Managers\ShaderManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entities\Enemy.h">
+    <ClInclude Include="src\Entities\EnemyClasses\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Managers\EnemyManager.h">
@@ -141,6 +147,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Utils\NightInclude.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\EnemyClasses\RandomMovingEnemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

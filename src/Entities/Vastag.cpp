@@ -1,7 +1,6 @@
 #include "Vastag.h"
 
 Vastag::Vastag(const float& dt)
-	: roomsFilter({0})
 {
 	deltaTime = &dt;
 }
@@ -23,11 +22,20 @@ void Vastag::Start()
 		};
 
 		difficulty = { 0, 1, 5, 4, 7, 12 };
+
+		currentDifficulty = difficulty.at(5);
+
+		moveInterval = 4.8f;
 	}
 }
 
 void Vastag::Update()
 {
+	if (Timer()) {
+		std::cout << " Vastag" << std::endl;
+		Move();
+	}
+	
 }
 
 void Vastag::Stop()

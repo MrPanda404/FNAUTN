@@ -14,6 +14,10 @@ public:
 	virtual void Start() = 0;
 	virtual void Update() = 0;
 	virtual void Stop() = 0;
+	virtual void Move();
+
+	virtual bool Timer();
+
 
 	std::pair<int, const sf::Vector2i*> GetPosAndID() { return { ID, &currentPos }; }
 

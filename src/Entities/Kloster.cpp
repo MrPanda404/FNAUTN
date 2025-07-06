@@ -29,7 +29,9 @@ void Kloster::Start()
             {7,2}
         };
 
-        difficulty = { 0, 0, 1, 2, 3, 4 };
+        difficulty = { 0, 0, 1, Random::GetInt(1,2) , 3, 4};
+
+        moveInterval = 4.1f;
     }
 }
 
@@ -38,5 +40,9 @@ void Kloster::Update()
 }
 
 void Kloster::Stop()
+{
+}
+
+void Kloster::Move()
 {
 }

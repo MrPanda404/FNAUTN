@@ -1,7 +1,7 @@
 #pragma once
-#include "Enemy.h"
+#include "RandomMovingEnemy.h"
 
-class Maxi : public Enemy
+class Maxi : public RandomMovingEnemy
 {
 public:
 	Maxi() = default;
@@ -10,10 +10,5 @@ public:
 	void Start() override;
 	void Update() override;
 	void Stop() override;
-
-	void Move();
-private:
-	std::vector<int> roomsFilter;
-	std::vector<sf::Vector2i> spotsFilter;
 };
 

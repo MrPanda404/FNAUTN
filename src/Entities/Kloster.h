@@ -10,5 +10,6 @@ public:
 	void Start() override;
 	void Update() override;
 	void Stop() override;
+	void Move() override;
 };
 
